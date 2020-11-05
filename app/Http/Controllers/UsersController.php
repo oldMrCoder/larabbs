@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Handlers\ImageUploadHandler;
 
 class UsersController extends Controller
 {
@@ -18,9 +19,25 @@ class UsersController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    public function update(UserRequest $request, User $user)
+    /**
+     * 更新用户数据，包括上传图片的逻辑
+     */
+    public function update(UserRequest $request, ImageUploadHandler $upLoader, User $user)
     {
-        $user->update($request->all());
+        // 获取表单送来的全部数据
+        $data = $request->all();
+
+        // 图片上传逻辑
+        if ($request->avatar) {
+            $result = $upLoader->save($request->avatar, 'avatar', $user->id);
+            // 如果图片上传成功，更新 $data['avatar']
+            if ($result) {
+                $data['avatar'] = $result['path'];
+            }
+        }
+
+        // 不论图片是否上传成功，更新数据
+        $user->update($data);
         return redirect()->route('users.show', $user->id)->with('success', '个人资料更新成功');
     }
 
