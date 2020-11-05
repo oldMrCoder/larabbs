@@ -9,6 +9,11 @@ use App\Handlers\ImageUploadHandler;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     public function show(User $user)
     {
         return view('users.show', compact('user'));
@@ -16,6 +21,9 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        // 启动授权策略 update ，验认 $user 是否符合策略要求
+        $this->authorize('update', $user);
+        
         return view('users.edit', compact('user'));
     }
 
@@ -24,6 +32,9 @@ class UsersController extends Controller
      */
     public function update(UserRequest $request, ImageUploadHandler $upLoader, User $user)
     {
+        // 启动授权策略 update ，验认 $user 是否符合策略要求
+        $this->authorize('update', $user);
+
         // 获取表单送来的全部数据
         $data = $request->all();
 
@@ -41,6 +52,4 @@ class UsersController extends Controller
         $user->update($data);
         return redirect()->route('users.show', $user->id)->with('success', '个人资料更新成功');
     }
-
-
 }
