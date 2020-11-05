@@ -29,7 +29,8 @@ class UsersController extends Controller
 
         // 图片上传逻辑
         if ($request->avatar) {
-            $result = $upLoader->save($request->avatar, 'avatar', $user->id);
+            // 第四个参数为头像图片的裁剪尺寸
+            $result = $upLoader->save($request->avatar, 'avatar', $user->id, 416);
             // 如果图片上传成功，更新 $data['avatar']
             if ($result) {
                 $data['avatar'] = $result['path'];
