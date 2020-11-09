@@ -14,10 +14,11 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index()
+	public function index(Request $request, Topic $topic)
 	{
+		// withOrder() 为自定义的查询方法，用于话题排序，为于 Topic.php 
 		// 预加载 user , category 两个数据表，修复 N+1 问题，即减少对数据库的查询次数
-		$topics = Topic::with('user', 'category')->paginate();
+		$topics = $topic->withOrder($request->order)->with('user', 'category')->paginate(20);
 		return view('topics.index', compact('topics'));
 	}
 
