@@ -17,7 +17,7 @@ class TopicsController extends Controller
 	public function index()
 	{
 		// 预加载 user , category 两个数据表，修复 N+1 问题，即减少对数据库的查询次数
-		$topics = Topic::with('user', 'category')->paginate(30);
+		$topics = Topic::with('user', 'category')->paginate();
 		return view('topics.index', compact('topics'));
 	}
 
