@@ -4,6 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Topic::class, function (Faker $faker) {
 
+    // 小段文本的假数据
     $sentence = $faker->sentence();
 
     // 随机取一个月以内的时间
