@@ -27,6 +27,8 @@ Route::post('email/resend', 'Auth\VerificationController@resend')->name('verific
 
 // 《个人中心页面》相关路由
 Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit']]);
+
+// 代码生成器自动建立的《话题》路由
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
 
 // 话题分类路由

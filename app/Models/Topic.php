@@ -4,7 +4,8 @@ namespace App\Models;
 
 class Topic extends Model
 {
-    protected $fillable = ['title', 'body', 'user_id', 'category_id', 'reply_count', 'view_count', 'last_reply_user_id', 'order', 'excerpt', 'slug'];
+    // 使用代码成生器时，各字段会默认为《可修改》，需要慎重新重制那些段字可以被用户修改
+    protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
 
     // 话题模型与分类模型的关系
     public function category()
