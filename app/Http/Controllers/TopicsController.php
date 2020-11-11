@@ -61,7 +61,7 @@ class TopicsController extends Controller
 		];
 		// 判断是否有上传文件，并赋值给 $file
 		if ($file = $request->upload_file) {
-			// 保存图片到本地
+			// 保存图片到本地，使用的是自定义的 ImageUploadHandler 类，位置：app/handlers/
 			$result = $uploader->save($file, 'topics', Auth::id(), 1024);
 			// 图片保存成功的话
 			if ($result) {
