@@ -33,3 +33,6 @@ Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'crea
 
 // 话题分类路由
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
+
+// 在创建新话题的《编辑器》中，上传图片
+Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');

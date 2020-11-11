@@ -46,21 +46,21 @@ class ImageUploadHandler
         ];
     }
 
-        // 裁剪图片
-        public function reduceSize($file_path, $max_width)
-        {
-            // 先实例化一个 Intervention\Image 类（扩展包），传参是文件的磁盘物理路径
-            $image = Image::make($file_path);
+    // 裁剪图片
+    public function reduceSize($file_path, $max_width)
+    {
+        // 先实例化一个 Intervention\Image 类（扩展包），传参是文件的磁盘物理路径
+        $image = Image::make($file_path);
 
+        // 进行大小调整的操作
+        $image->resize($max_width, null, function ($constraint) {
             // 进行大小调整的操作
-            $image->resize($max_width, null, function ($constraint) {
-                // 进行大小调整的操作
-                $constraint->aspectRatio();
-                // 防止裁图时图片尺寸变大
-                $constraint->upsize();
-            });
+            $constraint->aspectRatio();
+            // 防止裁图时图片尺寸变大
+            $constraint->upsize();
+        });
 
-            // 对图片修改后进行保存
-            $image->save();
-        }
+        // 对图片修改后进行保存
+        $image->save();
+    }
 }
