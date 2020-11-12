@@ -10,7 +10,7 @@
         <h2 class="">
           <i class="far fa-edit"></i>
           @if ($topic->id)
-            编辑话是
+            编辑话题
           @else
             新建话题
           @endif
@@ -34,9 +34,13 @@
             </div> 
             <div class="form-group">
               <select name="category_id" class="form-control" required>
-                <option value="" hidden disabled selected>请选择分类</option>
+                <option value="" hidden disabled {{ $topic->id ? '' : 'selected' }}>
+                  请选择分类
+                </option>
                 @foreach ($categories as $value)
-                  <option value="{{ $value->id }}">{{ $value->name }}</option>
+                  <option value="{{ $value->id }}" {{ $topic->category_id == $value->id ? 'selected' : '' }}>
+                    {{ $value->name }}
+                  </option>
                 @endforeach
               </select>
             </div> 
