@@ -21,6 +21,13 @@ class Topic extends Model
         return $this->belongsTo(User::class);
     }
 
+    // 话题模型与回复的关系
+    public function replies()
+    {
+        // 一个话题可以有多条回复
+        return $this->hasMany(Reply::class);
+    }
+
     /**
      * 用于话题排序
      * 使用了 Laravel 本地作用域 。
