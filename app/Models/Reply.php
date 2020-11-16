@@ -15,6 +15,6 @@ class Reply extends Model
     public function user()
     {
         // 一条回复只属于一个用户
-        return $this->belongTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }
