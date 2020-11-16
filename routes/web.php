@@ -29,7 +29,9 @@ Route::post('email/resend', 'Auth\VerificationController@resend')->name('verific
 Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit']]);
 
 // 代码生成器自动建立的《话题》路由
-Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
+// 提高 SEO ，把帖子 URL 翻译成更易于被搜索引擘发现
+Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
 
 // 话题分类路由
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);

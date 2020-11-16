@@ -3,7 +3,7 @@
             {{-- 下句中的 if() ，当渲染的话题为第一条时，去掉上边框 --}}
         @foreach ($topics as $topic)
             <li class="list-group-item pl-2 border-right-0 border-left-0 @if($loop->first) border-top-0 @endif">
-                <a href="{{ route('topics.show', $topic->id) }}">
+                <a href="{{ $topic->link() }}">
                     {{ $topic->title }}
                 </a>
                 <span class="meta float-right text-secondary">
