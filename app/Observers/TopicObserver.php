@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Handlers\SlugTranslateHandler;
 use App\Models\Topic;
+use App\Jobs\TranslateSlug;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -30,11 +31,17 @@ class TopicObserver
 
         // make_excerpt() 为自定义辅助方法，用于从帖子内容中提取摘要，方法位置：helpers.php
         $topic->excerpt = make_excerpt($topic->body);
+    }
 
+    // 在构建队列任务 TranslateSlug 的逻辑中，需要 topic->id ，但如果监察的是 saving 事件，那时的 topic->id 还没建立，
+    // 所以要进行如下重构
+    public function saved(Topic $topic)
+    {
         // 如 slug 字段无内容，即使用翻译器对 title 进行翻译
         if ( ! $topic->slug) {
-            // app 直接创建 SlugTranslateHandler 实例
-            $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
+            // 推送任务到队列
+            // 自定义任务的位置：app\jobs\TranslateSlug.php
+            dispatch(new TranslateSlug($topic));
         }
     }
 }

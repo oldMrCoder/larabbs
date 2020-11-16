@@ -14,11 +14,13 @@
         "guzzlehttp/guzzle": "~6.3",
         "intervention/image": "^2.5",
         "laravel/framework": "^7.29",
+        "laravel/horizon": "v4.3.5",
         "laravel/tinker": "^2.5",
         "mews/captcha": "~3.0",
         "mews/purifier": "~3.0",
         "overtrue/laravel-lang": "~3.0",
         "overtrue/pinyin": "~4.0",
+        "predis/predis": "~1.1",
         "summerblue/laravel-active": "7.*"
     },
     "require-dev": {
@@ -32,6 +34,10 @@
         "summerblue/generator": "7.*"
     },
     "config": {
+        "platform": {
+            "ext-pcntl": "7.3",
+            "ext-posix": "7.3"
+        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
