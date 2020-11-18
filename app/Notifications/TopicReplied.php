@@ -8,7 +8,10 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Reply;
 
-class TopicReplied extends Notification
+/**
+ * 通知类添加 ShouldQueue 接口，通知将自动发送到队列执行
+ */
+class TopicReplied extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -36,7 +39,7 @@ class TopicReplied extends Notification
     {
         // 开启通知的频道
         // return ['mail'];
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -62,16 +65,16 @@ class TopicReplied extends Notification
 
     /**
      * Get the mail representation of the notification.
-     *
+     * 通知《邮件频道进行通知》
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        // 拼接邮件中《点击查看回复》的 url 
+        $url = $this->reply->topic->link(['#reply' . $this->reply->id]);
+        // 如何取得被通知用户的邮件？教程中并没有解释
+        return (new MailMessage)->line('你的话题有新回复！')->action('查看回复', $url);
     }
 
     /**
