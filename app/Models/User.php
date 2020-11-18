@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         return $this->id == $model->user_id;
     }
     
-    // 重写 notify 方法，此处与教程不同，参照的是教程对应章节以面的一个同学回复
+    // 重写 notify 方法，此处与教程不同，参照的是教程对应章节下面的一个同学回复
     public function topicNotify($instance)
     {
         // 如果要通知的人是当前用户，就不必通知了！
@@ -67,5 +67,14 @@ class User extends Authenticatable implements MustVerifyEmailContract
         }
         $this->increment('notification_count');
         $this->notify($instance);
+    }
+
+    // 当用户阅读通知后，清除通知计数信息
+    // unreadNotification 为 notifiable 中的方法
+    public function markAsRead ()
+    {
+        $this->notification_count = 0;
+        $this->save();
+        $this->unreadNotifications->markAsRead();
     }
 }
