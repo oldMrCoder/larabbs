@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Handlers\SlugTranslateHandler;
 use App\Models\Topic;
 use App\Jobs\TranslateSlug;
+use Illuminate\Support\Facades\DB;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -43,5 +44,12 @@ class TopicObserver
             // 自定义任务的位置：app\jobs\TranslateSlug.php
             dispatch(new TranslateSlug($topic));
         }
+    }
+
+    public function deleted(Topic $topic)
+    {
+        // 当帖子被删除时，一并删除帖子的所有回复
+        // 使用 DB 类进行操作，是为了避免使 Eloquent 对象而引起的事件联动逻辑冲突
+        DB::table('replies')->where('topic_id', $topic->id)->delete();
     }
 }

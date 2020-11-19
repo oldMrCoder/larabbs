@@ -15,6 +15,7 @@ class ReplyPolicy extends Policy
 
     public function destroy(User $user, Reply $reply)
     {
-        return true;
+        // 当前操作用户是回复的所有者，或当前操作用户是帖子的所有者
+        return $user->isAuthorOf($reply) || $user->isAuthorOf($reply->topic);
     }
 }
